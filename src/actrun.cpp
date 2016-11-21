@@ -9,10 +9,10 @@
 #include <evhttp.h>
 #include <signal.h>
 
-#define SERVER   " v 0.0.1"
+#define SERVER "DataCloud v 0.0.1"
 
 //处理模块
-    void httpd_handler(struct evhttp_request *req, void *arg) {
+void httpd_handler(struct evhttp_request *req, void *arg) {
         char output[2048] = "\0";
         char tmp[1024];
 
@@ -152,7 +152,7 @@
 
         //循环处理events
         event_dispatch();
-
+        
         evhttp_free(httpd);
         return 0;
     }
