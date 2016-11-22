@@ -1,3 +1,5 @@
+build/
+bin/
 third_party/
 # Compiled Object files
 *.slo
