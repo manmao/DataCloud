@@ -2,12 +2,12 @@
 #include <stdlib.h>
 #include <unistd.h>     //for getopt, fork
 #include <string.h>     //for strcat
-//for struct evkeyvalq
+#include <signal.h>
 #include <sys/queue.h>
 #include <event.h>
- //for http
 #include <evhttp.h>
-#include <signal.h>
+
+#include "test.h"
 
 #define SERVER "DataCloud v 0.0.1"
 
@@ -15,7 +15,7 @@
 void httpd_handler(struct evhttp_request *req, void *arg) {
         char output[2048] = "\0";
         char tmp[1024];
-
+        
         //获取客户端请求的URI(使用evhttp_request_uri或直接req->uri)
         const char *uri;
         uri = evhttp_request_uri(req);
@@ -52,7 +52,7 @@ void httpd_handler(struct evhttp_request *req, void *arg) {
         /* 输出到客户端 */
 
         //HTTP header
-        evhttp_add_header(req->output_headers, "Server", MYHTTPD_SIGNATURE);
+        evhttp_add_header(req->output_headers, "Server", SERVER);
         evhttp_add_header(req->output_headers, "Content-Type", "text/plain; charset=UTF-8");
         evhttp_add_header(req->output_headers, "Connection", "close");
         //输出的内容
@@ -73,6 +73,7 @@ void httpd_handler(struct evhttp_request *req, void *arg) {
             "\n";
         fprintf(stderr, help);
     }
+
     //当向进程发出SIGTERM/SIGHUP/SIGINT/SIGQUIT的时候，终止event的事件侦听循环
     void signal_handler(int sig) {
         switch (sig) {

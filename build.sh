@@ -1,20 +1,21 @@
-set -e  # exit immediately on error
+#set -e  # exit immediately on error
 set -x  # display all commands
 
 mkdir -p third_party;
 
 cd third_party;
 
-if [ ! -f libevent ]; then
+if [ ! -d libevent ]; then
 	git clone https://github.com/libevent/libevent.git libevent
 	cd libevent
 
-	mkdir build && cd build
- 	cmake ..     # Default to Unix Makefiles.
+ 	cmake .     # Default to Unix Makefiles.
  	make
- 	make verify  # (optional)
- 	cd ../../../
+ 	#make verify  # (optional)
+ 	cd ../
 fi
+
+cd ../
 
 mkdir -p build;
 cd build

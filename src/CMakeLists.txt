@@ -4,7 +4,7 @@ include_directories(${CMAKE_SOURCE_DIR}/include)
 FIND_PACKAGE(LIBEVENT REQUIRED)
 IF(LIBEVENT_FOUND)
 	include_directories(${LIBEVENT_INCLUDE_DIR})
-	target_link_libraries(event ${LIBEVENT_LIBRARY_DIR})
+	LINK_DIRECTORIES(${LIBEVENT_LIBRARY_DIR})
 ELSE(LIBEVENT_FOUND)
 	message(FATAL_ERROR "libevent not found!")
 ENDIF(LIBEVENT_FOUND)
@@ -14,5 +14,7 @@ AUX_SOURCE_DIRECTORY(. CURRENT_SRC_LIST)
 
 set(EXECUTABLE_OUTPUT_PATH ${CMAKE_SOURCE_DIR}/bin)
 
-ADD_EXECUTABLE(test ${CURRENT_SRC_LIST})
+ADD_EXECUTABLE(httpd ${CURRENT_SRC_LIST})
+
+target_link_libraries(httpd event event_core)
 
